@@ -1,24 +1,8 @@
-import { Metadata } from "next";
+import { createProduct, getProducts } from "@/core/actions/products";
+import { Button } from "@/core/components/ui/button";
 import Link from "next/link";
 
-interface Product {
-  id: string;
-  name: string;
-}
-
-const getProducts = async (): Promise<Product[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: "1", name: "Product 1" },
-        { id: "2", name: "Product 2" },
-        { id: "3", name: "Product 3" },
-      ]);
-    }, 1000);
-  });
-};
-
-export default async function Products() {
+export default async function ProductsContainer() {
   const products = await getProducts();
   return (
     <>
@@ -33,6 +17,7 @@ export default async function Products() {
           </Link>
         ))}
       </div>
+      <Button onClick={createProduct}>Create Product</Button>
     </>
   );
 }

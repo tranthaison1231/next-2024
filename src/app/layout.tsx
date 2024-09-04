@@ -16,22 +16,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  analytics,
-  team,
+  modal,
 }: Readonly<{
+  modal: React.ReactNode;
   children: React.ReactNode;
-  analytics: React.ReactNode;
-  team: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={cn(roboto.className, "bg-stone-50")}>
         <Header />
+        {modal}
         {children}
-        <div className="grid grid-cols-2">
-          {analytics}
-          {team}
-        </div>
       </body>
     </html>
   );

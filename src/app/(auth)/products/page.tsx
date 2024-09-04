@@ -1,4 +1,4 @@
-import Products from "@/features/products/Products";
+import ProductsContainer from "@/features/products/Products";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  return <Products />;
+  return <ProductsContainer />;
 }

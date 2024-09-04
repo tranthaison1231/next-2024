@@ -1,5 +1,5 @@
+import AboutContainer from "@/features/about/About";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Lazada - About",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  redirect("/products");
+  return <AboutContainer />;
 }

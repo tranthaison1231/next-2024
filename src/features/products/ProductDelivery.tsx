@@ -1,20 +1,18 @@
-interface ProductDelivery {
-  id: string;
-  address: string;
+import { getProductDelivery } from "@/core/actions/products";
+import Product from "./Product";
+
+interface ProductDeliveryProps {
+  productId: string;
 }
 
-const getProductDelivery = async (): Promise<ProductDelivery> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        id: "1",
-        address: "Address 1",
-      });
-    }, 1000);
-  });
-};
-
-export default async function ProductDelivery() {
-  const productDelivery = await getProductDelivery();
-  return <div>{productDelivery.address}</div>;
+export default async function ProductDelivery({
+  productId,
+}: ProductDeliveryProps) {
+  const productDelivery = await getProductDelivery(productId);
+  return (
+    <div>
+      {productDelivery.address}
+      <Product />
+    </div>
+  );
 }

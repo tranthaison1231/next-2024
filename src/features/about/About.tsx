@@ -1,10 +1,12 @@
+"use client";
 import { Button } from "@/core/components/ui/button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function About() {
-  return (
-    <Link href="/products" prefetch>
-      <Button>Products</Button>
-    </Link>
-  );
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/products");
+  };
+  return <Button onClick={handleClick}>Products</Button>;
 }

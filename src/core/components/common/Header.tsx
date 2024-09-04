@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 
 const MENUS = [
   {
@@ -16,13 +16,15 @@ const MENUS = [
     link: "/products",
   },
   {
-    label: "Settings",
-    link: "/settings",
+    label: "Login",
+    link: "/login",
   },
 ];
 
 export default function Header() {
   const pathname = usePathname();
+  const segment = useSelectedLayoutSegment();
+  console.log(segment);
 
   return (
     <nav>
