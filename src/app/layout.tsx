@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/utils/cn";
+import { cn } from "@/core/utils/cn";
+import Header from "@/core/components/common/Header";
 
 const roboto = Roboto({
   weight: "400",
@@ -15,12 +16,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  analytics,
+  team,
 }: Readonly<{
   children: React.ReactNode;
+  analytics: React.ReactNode;
+  team: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className, "bg-stone-50")}>{children}</body>
+      <body className={cn(roboto.className, "bg-stone-50")}>
+        <Header />
+        {children}
+        <div className="grid grid-cols-2">
+          {analytics}
+          {team}
+        </div>
+      </body>
     </html>
   );
 }
