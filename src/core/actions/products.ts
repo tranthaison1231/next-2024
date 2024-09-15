@@ -1,26 +1,21 @@
-"use server";
+'use server';
 
-import { unstable_cache } from "next/cache";
-
-interface Product {
-  id: string;
-  name: string;
-}
+import { unstable_cache } from 'next/cache';
 
 export const getProducts = unstable_cache(
   async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve([
-          { id: "1", name: "Product 1" },
-          { id: "2", name: "Product 2" },
-          { id: "3", name: "Product 3" },
+          { id: '1', name: 'Product 1' },
+          { id: '2', name: 'Product 2' },
+          { id: '3', name: 'Product 3' }
         ]);
       }, 3000);
     });
   },
-  ["products"],
-  { revalidate: 60, tags: ["products"] },
+  ['products'],
+  { revalidate: 60, tags: ['products'] }
 );
 
 interface ProductDelivery {
@@ -29,18 +24,14 @@ interface ProductDelivery {
 }
 
 export const getProductDelivery = async (
-  productId: string,
+  productId: string
 ): Promise<ProductDelivery> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         id: productId,
-        address: `Address for product ${productId}`,
+        address: `Address for product ${productId}`
       });
     }, 4000);
   });
-};
-
-export const createProduct = async (): Promise<Product> => {
-  console.log("!2412424");
 };

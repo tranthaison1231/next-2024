@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/core/utils/cn";
-import Header from "@/core/components/common/Header";
+import Header from "@/core/components/organisms/Header";
+import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 const roboto = Roboto({
   weight: "400",
@@ -18,8 +20,8 @@ export default function RootLayout({
   children,
   modal,
 }: Readonly<{
-  modal: React.ReactNode;
-  children: React.ReactNode;
+  modal: ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -27,6 +29,7 @@ export default function RootLayout({
         <Header />
         {modal}
         {children}
+        <Toaster richColors position="top-right" closeButton duration={5000} />
       </body>
     </html>
   );

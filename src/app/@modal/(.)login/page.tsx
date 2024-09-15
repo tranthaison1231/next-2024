@@ -1,7 +1,7 @@
-import { Modal } from "@/core/components/ui/modal";
-import LoginContainer from "@/features/login/LoginContainer";
+import { Modal } from "@/core/components/molecules/Modal";
+import LoginContainer from "@/features/auth/LoginContainer";
 
-export default async function Login() {
+export default function Login() {
   return (
     <Modal>
       <LoginContainer />

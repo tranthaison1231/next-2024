@@ -1,0 +1,124 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"all": true,
+			"complexity": {
+				"noStaticOnlyClass": "off"
+			},
+			"suspicious": {
+				"noReactSpecificProps": "off",
+				"noConsole": "off",
+				"noShadowRestrictedNames": "off"
+			},
+			"correctness": {
+				"noUndeclaredDependencies": "off",
+				"useImportExtensions": "off"
+			},
+			"nursery": {
+				"noRestrictedImports": {
+					"options": {
+						"paths": {
+							"lodash": "Using lodash is not encouraged",
+							"underscore": "Using underscore is not encouraged"
+						}
+					}
+				}
+			},
+			"style": {
+				"useBlockStatements": "off",
+				"noNamespaceImport": "off",
+				"noDefaultExport": "off",
+				"noNonNullAssertion": "off",
+				"useExplicitLengthCheck": "off",
+				"noImplicitBoolean": "off",
+				"useFilenamingConvention": {
+					"level": "error",
+					"options": {
+						"filenameCases": ["kebab-case", "camelCase", "PascalCase", "export"]
+					}
+				},
+				"useNamingConvention": {
+					"level": "error",
+					"fix": "unsafe",
+					"options": {
+						"strictCase": false,
+						"requireAscii": true,
+						"conventions": [
+							{
+								"formats": ["camelCase", "PascalCase", "CONSTANT_CASE"],
+								"selector": {
+									"kind": "variable"
+								}
+							},
+							{
+								"selector": {
+									"kind": "const",
+									"scope": "global"
+								},
+								"formats": ["CONSTANT_CASE"]
+							},
+							{
+								"selector": {
+									"kind": "interface"
+								},
+								"formats": ["PascalCase", "CONSTANT_CASE"]
+							},
+							{
+								"selector": {
+									"kind": "enum"
+								},
+								"formats": ["PascalCase"]
+							},
+							{
+								"selector": {
+									"kind": "objectLiteralProperty"
+								},
+								"match": ".*"
+							},
+							{
+								"match": "_(.*)|([a-zA-Z].*)",
+								"selector": {
+									"kind": "functionParameter"
+								},
+								"formats": ["snake_case", "PascalCase", "camelCase"]
+							},
+							{
+								"match": ".*",
+								"formats": [
+									"snake_case",
+									"camelCase",
+									"PascalCase",
+									"CONSTANT_CASE"
+								]
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": true
+	},
+	"javascript": {
+		"formatter": {
+			"enabled": true,
+			"quoteStyle": "single",
+			"semicolons": "always",
+			"indentStyle": "space",
+			"trailingCommas": "none"
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
+	"files": {
+		"ignore": [".next/*", "node_modules/*"]
+	}
+}

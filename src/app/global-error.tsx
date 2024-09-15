@@ -1,17 +1,19 @@
-"use client"; // Error boundaries must be Client Components
+'use client'; // Error boundaries must be Client Components
 
 export default function GlobalError({
   error,
-  reset,
+  reset
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
   return (
-    <html>
+    <html lang="en">
       <body>
         <h2>{error.name}</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <button onClick={reset} type="button">
+          Try again
+        </button>
       </body>
     </html>
   );

@@ -1,0 +1,11 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table user {
+  id String [pk]
+  email String [not null]
+  password String [not null]
+  fullName String
+  avatar String
+}

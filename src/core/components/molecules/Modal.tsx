@@ -1,9 +1,14 @@
 "use client";
 
-import { Dialog, DialogOverlay, DialogContent } from "./dialog";
+import type { ReactNode } from "react";
+import {
+  Dialog,
+  DialogOverlay,
+  DialogContent,
+} from "@/core/components/atoms/dialog";
 import { useRouter } from "next/navigation";
 
-export function Modal({ children }: { children: React.ReactNode }) {
+export function Modal({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   const handleOpenChange = () => {

@@ -1,9 +1,7 @@
-"use client";
-import { useEffect } from "react";
+'use client';
 
-export default function Template({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    console.log("Log page view");
-  }, []);
+import type { ReactNode } from 'react';
+
+export default function Template({ children }: { children: ReactNode }) {
   return <div>{children}</div>;
 }

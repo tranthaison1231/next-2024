@@ -1,5 +1,3 @@
-import LoginContainer from "@/features/login/LoginContainer";
+import LoginContainer from "@/features/auth/LoginContainer";
 
-export default async function Login() {
-  return <LoginContainer />;
-}
+export default LoginContainer;
