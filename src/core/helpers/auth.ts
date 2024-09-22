@@ -1,4 +1,4 @@
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { UserRepository } from "@/core/repositories/user";
 import { comparePassword } from "@/core/helpers/hash";
@@ -6,30 +6,22 @@ import { LoginSchema } from "@/core/schemas/login";
 import config from "@/core/lib/config";
 import { jwtDecode } from "jwt-decode";
 import type { JWT } from "next-auth/jwt";
+import { createRefreshToken, createToken, refreshToken } from "./jwt";
 
 async function refreshAccessToken(token: JWT) {
   try {
-    const response = await fetch("/api/auth/refresh-token", {
-      headers: {
-        Authorization: `Bearer ${token.refreshToken}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error);
-    }
+    const data = await refreshToken(token.refreshToken, token.user.id);
 
     return {
       ...token,
       accessToken: data.accessToken,
-      refreshToken: data.refreshToken ?? token.refreshToken, // Fall back to old refresh token
+      refreshToken: data.refreshToken,
     };
   } catch (error) {
+    console.error(error);
     return {
       ...token,
-      error: error,
+      error: "RefreshAccessTokenError",
     };
   }
 }
@@ -37,7 +29,7 @@ async function refreshAccessToken(token: JWT) {
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 30,
+    maxAge: 24 * 60 * 60, // 1 Day
   },
   secret: config.NEXTAUTH_SECRET,
   pages: {
@@ -45,7 +37,7 @@ export const authOptions: NextAuthOptions = {
     error: "/login",
   },
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (token.accessToken) {
         const decodedToken = jwtDecode<{
           exp: number;
@@ -53,22 +45,26 @@ export const authOptions: NextAuthOptions = {
         token.accessTokenExpires = decodedToken?.exp * 1000;
       }
 
-      if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
-        token.user = user;
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          user,
+        };
       }
 
-      if (Date.now() < token.accessTokenExpires) {
-        return token;
-      }
+      if (Date.now() < token.accessTokenExpires) return token;
 
-      return refreshAccessToken(token);
+      const newToken = await refreshAccessToken(token);
+
+      return newToken;
     },
     session: ({ session, token }) => {
       if (token) {
         session.accessToken = token.accessToken;
-        session.user = token.user;
+        session.user = token.user as User;
+        session.error = token.error;
       }
       return session;
     },
@@ -100,12 +96,16 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Invalid credentials!");
           }
 
+          const accessToken = createToken({ userId: user.id });
+          const refreshToken = await createRefreshToken({
+            userId: user.id,
+          });
+
           return {
             id: user.id,
             email: user.email,
-            accessToken:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjEyNDEyNDE0fQ.U9cWDh4hidg5Hi8yjzD5xJBuGuySwOOOhMpq3bfg6R4",
-            refreshToken: "14124",
+            accessToken: accessToken,
+            refreshToken: refreshToken,
           };
         } catch (error) {
           if (error instanceof Error) {

@@ -8,5 +8,5 @@ export const getMe = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session) return null;
-  return await UserRepository.getUserByEmail(session.user?.name!);
+  return await UserRepository.getUserByEmail(session.user?.email!);
 };

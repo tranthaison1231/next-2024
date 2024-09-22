@@ -9,7 +9,13 @@ declare module "next-auth" {
   }
 
   interface Session extends DefaultSession {
-    user: unknown;
+    user: {
+      id: string;
+      email: string;
+      accessToken: string;
+      refreshToken: string;
+    };
+    error: unknown;
     accessToken: unknown;
   }
 }
@@ -19,5 +25,9 @@ declare module "next-auth/jwt" {
     accessToken: string;
     refreshToken: string;
     accessTokenExpires: number;
+    user: {
+      id: string;
+      email: string;
+    };
   }
 }
